@@ -57,7 +57,7 @@ char *bwa_pg;
  ************************/
 
 #include "kseq.h"
-KSEQ_DECLARE(gzFile)
+KSEQ_DECLARE(sqzFile)
 
 static inline void trim_readno(kstring_t *s)
 {
@@ -215,7 +215,7 @@ bseq1_t *bseq_read_orig(int64_t chunk_size, int *n_, void *ks1_, void *ks2_, int
     return seqs;
 }
 
-bseq1_t *bseq_read_one_fasta_file(int64_t chunk_size, int *n_, gzFile fp, int64_t *s)
+bseq1_t *bseq_read_one_fasta_file(int64_t chunk_size, int *n_, sqzFile fp, int64_t *s)
 {
     kseq_t *ks = kseq_init(fp);
     bseq1_t *seq = bseq_read_orig(chunk_size, n_, ks, NULL, s);

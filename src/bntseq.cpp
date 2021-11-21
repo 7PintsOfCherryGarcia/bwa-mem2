@@ -40,7 +40,7 @@
 #include "macro.h"
 
 #include "kseq.h"
-KSEQ_DECLARE(gzFile)
+KSEQ_DECLARE(sqzFile)
 
 #include "khash.h"
 KHASH_MAP_INIT_STR(str, int)
@@ -295,7 +295,7 @@ static uint8_t *add1(const kseq_t *seq, bntseq_t *bns, uint8_t *pac, int64_t *m_
 	return pac;
 }
 
-int64_t bns_fasta2bntseq(gzFile fp_fa, const char *prefix, int for_only)
+int64_t bns_fasta2bntseq(sqzFile fp_fa, const char *prefix, int for_only)
 {
 	extern void seq_reverse(int len, ubyte_t *seq, int is_comp); // in bwaseqio.c
 	kseq_t *seq;
@@ -359,7 +359,7 @@ int64_t bns_fasta2bntseq(gzFile fp_fa, const char *prefix, int for_only)
 int bwa_fa2pac(int argc, char *argv[])
 {
 	int c, for_only = 0;
-	gzFile fp;
+	sqzFile fp;
 	while ((c = getopt(argc, argv, "f")) >= 0) {
 		switch (c) {
 			case 'f': for_only = 1; break;
@@ -369,9 +369,9 @@ int bwa_fa2pac(int argc, char *argv[])
 		fprintf(stderr, "Usage: bwa fa2pac [-f] <in.fasta> [<out.prefix>]\n");
 		return 1;
 	}
-	fp = xzopen(argv[optind], "r");
+	fp = sqzopen(argv[optind], "r");
 	bns_fasta2bntseq(fp, (optind+1 < argc)? argv[optind+1] : argv[optind], for_only);
-	err_gzclose(fp);
+	sqzclose(fp);
 	return 0;
 }
 

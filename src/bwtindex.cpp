@@ -66,12 +66,12 @@ int bwa_idx_build(const char *fa, const char *prefix)
 	int64_t l_pac;
 
 	{ // nucleotide indexing
-		gzFile fp = xzopen(fa, "r");
+		sqzFile fp = sqzopen(fa, "r");
 		t = clock();
 		fprintf(stderr, "[bwa_index] Pack FASTA... ");
 		l_pac = bns_fasta2bntseq(fp, prefix, 1);
 		fprintf(stderr, "%.2f sec\n", (float)(clock() - t) / CLOCKS_PER_SEC);
-		err_gzclose(fp);
+		sqzclose(fp);
         FMI_search *fmi = new FMI_search(prefix);
         fmi->build_index();
         delete fmi;

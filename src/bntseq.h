@@ -32,7 +32,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <zlib.h>
-
+#include "sqzlib/sqzlib.h"
 #ifndef BWA_UBYTE
 #define BWA_UBYTE
 typedef uint8_t ubyte_t;
@@ -73,7 +73,7 @@ extern "C" {
 	bntseq_t *bns_restore(const char *prefix);
 	bntseq_t *bns_restore_core(const char *ann_filename, const char* amb_filename, const char* pac_filename);
 	void bns_destroy(bntseq_t *bns);
-	int64_t bns_fasta2bntseq(gzFile fp_fa, const char *prefix, int for_only);
+	int64_t bns_fasta2bntseq(sqzFile fp_fa, const char *prefix, int for_only);
 	int bns_pos2rid(const bntseq_t *bns, int64_t pos_f);
 	int bns_cnt_ambi(const bntseq_t *bns, int64_t pos_f, int len, int *ref_id);
 	uint8_t *bns_get_seq(int64_t l_pac, const uint8_t *pac, int64_t beg, int64_t end, int64_t *len);

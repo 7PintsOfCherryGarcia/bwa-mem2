@@ -682,7 +682,7 @@ int ksw_global(int qlen, const uint8_t *query, int tlen, const uint8_t *target, 
 #include <stdio.h>
 #include <zlib.h>
 #include "kseq.h"
-KSEQ_INIT(gzFile, err_gzread)
+KSEQ_INIT(sqzFile, sqzread)
 
 unsigned char seq_nt4_table[256] = {
 	4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4, 

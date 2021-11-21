@@ -362,7 +362,7 @@ static void *ktp_worker(void *data)
     pthread_exit(0);
 }
 
-static int process(void *shared, gzFile gfp, gzFile gfp2, int pipe_threads)
+static int process(void *shared, sqzFile gfp, sqzFile gfp2, int pipe_threads)
 {
     ktp_aux_t   *aux = (ktp_aux_t*) shared;
     worker_t     w;
@@ -537,7 +537,6 @@ static int process(void *shared, gzFile gfp, gzFile gfp2, int pipe_threads)
         free(w.mmc.rid[l]);
         _mm_free(w.mmc.lim[l]);
     }
-
     return 0;
 }
 
@@ -618,7 +617,7 @@ int main_mem(int argc, char *argv[])
     const char  *mode                      = 0;
     
     mem_opt_t    *opt, opt0;
-    gzFile        fp, fp2 = 0;
+    sqzFile        fp, fp2 = 0;
     void         *ko = 0, *ko2 = 0;
     int           fd, fd2;
     mem_pestat_t  pes[4];
@@ -889,8 +888,8 @@ int main_mem(int argc, char *argv[])
             aux.fmi->idx->bns->anns[i].is_alt = 0;
 
     /* READS file operations */
-    ko = kopen(argv[optind + 1], &fd);
-	if (ko == 0) {
+    fp = sqzopen(argv[optind + 1], "r");
+	if (!fp) {
 		fprintf(stderr, "[E::%s] fail to open file `%s'.\n", __func__, argv[optind + 1]);
         free(opt);
         if (is_o) 
@@ -900,7 +899,7 @@ int main_mem(int argc, char *argv[])
         return 1;
     }
     // fp = gzopen(argv[optind + 1], "r");
-    fp = gzdopen(fd, "r");
+    //fp = gzdopen(fd, "r");
     aux.ks = kseq_init(fp);
     
     // PAIRED_END
@@ -913,12 +912,13 @@ int main_mem(int argc, char *argv[])
         }
         else
         {
-            ko2 = kopen(argv[optind + 2], &fd2);
-            if (ko2 == 0) {
+            //ko2 = kopen(argv[optind + 2], &fd2);
+            fp2 = sqzopen(argv[optind + 2], "r");
+            if (!fp2) {
                 fprintf(stderr, "[E::%s] failed to open file `%s'.\n", __func__, argv[optind + 2]);
                 free(opt);
                 free(ko);
-                err_gzclose(fp);
+                sqzclose(fp);
                 kseq_destroy(aux.ks);
                 if (is_o) 
                     fclose(aux.fp);             
@@ -928,7 +928,7 @@ int main_mem(int argc, char *argv[])
                 return 1;
             }            
             // fp2 = gzopen(argv[optind + 2], "r");
-            fp2 = gzdopen(fd2, "r");
+            //fp2 = gzdopen(fd2, "r");
             aux.ks2 = kseq_init(fp2);
             opt->flag |= MEM_F_PE;
             assert(aux.ks2 != 0);
@@ -951,19 +951,18 @@ int main_mem(int argc, char *argv[])
     process(&aux, fp, fp2, no_mt_io? 1:2);
     
     tprof[PROCESS][0] += __rdtsc() - tim;
-
     // free memory
     int32_t nt = aux.opt->n_threads;
     _mm_free(ref_string);
     free(hdr_line);
     free(opt);
     kseq_destroy(aux.ks);   
-    err_gzclose(fp); kclose(ko);
+    sqzclose(fp);
 
     // PAIRED_END
     if (aux.ks2) {
         kseq_destroy(aux.ks2);
-        err_gzclose(fp2); kclose(ko2);
+        sqzclose(fp2); kclose(ko2);
     }
     
     if (is_o) {

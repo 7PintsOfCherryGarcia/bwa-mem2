@@ -50,7 +50,7 @@ Authors: Vasimuddin Md <vasimuddin.md@intel.com>; Sanchit Misra <sanchit.misra@i
 #include "kseq.h"
 #include "profiling.h"
 
-KSEQ_DECLARE(gzFile)
+KSEQ_DECLARE(sqzFile)
 
 typedef struct {
 	kseq_t *ks, *ks2;

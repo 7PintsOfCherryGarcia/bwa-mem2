@@ -1,3 +1,6 @@
 [submodule "ext/safestringlib"]
 	path = ext/safestringlib
 	url = https://github.com/intel/safestringlib.git
+[submodule "sqzlib"]
+	path = sqzlib
+	url = https://github.com/7PintsOfCherryGarcia/sqzlib.git
