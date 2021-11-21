@@ -17,18 +17,12 @@ See [sqzlib](https://github.com/7PintsOfCherryGarcia/sqzlib) for details
 
 ## Getting Started
 ```sh
-# Use precompiled binaries (recommended)
-curl -L https://github.com/bwa-mem2/bwa-mem2/releases/download/v2.0pre2/bwa-mem2-2.0pre2_x64-linux.tar.bz2 \
-  | tar jxf -
-bwa-mem2-2.0pre2_x64-linux/bwa-mem2 index ref.fa
-bwa-mem2-2.0pre2_x64-linux/bwa-mem2 mem ref.fa read1.fq read2.fq > out.sam
-
 # Compile from source (not recommended for general users)
 # Get the source
-git clone --recursive https://github.com/bwa-mem2/bwa-mem2
+git clone --recursive https://github.com/7PintsOfCherryGarcia/bwa-mem2
 cd bwa-mem2
 # Or
-git clone https://github.com/bwa-mem2/bwa-mem2
+git clone https://github.com/7PintsOfCherryGarcia/bwa-mem2
 cd bwa-mem2
 git submodule init
 git submodule update
